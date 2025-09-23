@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  queues-performance:
+    build:
+      context: .
+      args:
+        JAR_FILE: ./build/libs/*.jar
+
+    image: queues-performance
+    ports:
+      - 8080:8080

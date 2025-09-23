@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: queues-performance
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      enabled: true
+      pattern: "%a [%{dd/MMM/y:HH:mm:ss.SSS Z]}t %T %B {%{org.apache.catalina.AccessLog.RemoteAddr}r} %m %U %s spanId=%X{spanId} traceId=%X{traceId}"
+      prefix: access
+      request-attributes-enabled: true
+      buffered: false
+      file-date-format:
+      directory:
+    basedir: ./logs
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/index.html
+  packages-to-scan:
+    - io.github.czeffik.queues.performance.interfaces.rest
+  paths-to-match:
+    - /**

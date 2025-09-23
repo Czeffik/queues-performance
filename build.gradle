@@ -1,0 +1,81 @@
+buildscript {
+    ext {
+        repos = {
+            gradlePluginPortal()
+            mavenLocal()
+            mavenCentral()
+        }
+        lombokVersion = '1.18.42'
+
+        springBootVersion = '3.5.6'
+        swaggerVersion = '2.8.3'
+
+        guavaVersion = '33.5.0-jre'
+
+        vavrVersion = '0.10.7'
+
+        pitestVersion = '1.15.0'
+        spotlessVersion = '6.25.0'
+
+        groupName = 'io.github.czeffik.queues.performance'
+        mainClassName = "${groupName}.App"
+    }
+}
+
+
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'idea'
+    id 'info.solidsoft.pitest' version "$pitestVersion"
+    id "com.diffplug.spotless" version "$spotlessVersion"
+    id 'org.springframework.boot' version "$springBootVersion"
+}
+
+apply from: 'gradle/test.gradle'
+apply from: 'gradle/version.gradle'
+
+group "${groupName}"
+version gitVersion()
+
+sourceCompatibility = 21
+
+repositories(repos)
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}"
+
+    implementation "com.google.guava:guava:${guavaVersion}"
+
+    implementation "io.vavr:vavr:${vavrVersion}"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+pitest {
+    junit5PluginVersion = '1.1.2'
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    mainClass.set("$mainClassName")
+    manifest {
+        attributes 'Start-Class': "$mainClassName"
+    }
+    launchScript()
+}
+
+springBoot {
+    mainClass = "$mainClassName"
+}
+
+bootRun {
+}

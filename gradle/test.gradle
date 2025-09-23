@@ -1,0 +1,69 @@
+buildscript {
+    ext {
+        groovyVersion = '4.0.28'
+        spockVersion = '2.4-M6-groovy-4.0'
+        restAssuredVersion = '5.5.6'
+        archunitVersion = '1.4.1'
+        junitVersion = '5.13.4'
+        mockitoVersion = '5.20.0'
+        assertJVersion = '3.27.6'
+        assertJVavrVersion = '0.4.3'
+    }
+}
+
+sourceSets {
+    test.groovy.srcDirs(
+            "src/test/unit",
+            "src/test/integration",
+            "src/test/functional",
+            "src/test/commons"
+    )
+
+    test.java.srcDirs(
+        "src/test/unit",
+        "src/test/integration",
+        "src/test/functional",
+        "src/test/commons"
+    )
+}
+
+dependencies {
+    testImplementation "org.apache.groovy:groovy-all:${groovyVersion}"
+
+    testImplementation "org.spockframework:spock-core:${spockVersion}"
+    testImplementation "org.spockframework:spock-spring:${spockVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
+
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+
+    testImplementation "org.assertj:assertj-core:${assertJVersion}"
+    testImplementation "org.assertj:assertj-vavr:${assertJVavrVersion}"
+
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
+
+    testImplementation "com.tngtech.archunit:archunit:${archunitVersion}"
+}
+
+idea {
+    module {
+        test
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+spotless {
+    java {
+        importOrder()
+        removeUnusedImports()
+        googleJavaFormat()
+        formatAnnotations()
+    }
+}
