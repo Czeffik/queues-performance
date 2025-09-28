@@ -11,10 +11,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ProducerProperties {
   private Producer.Type type;
   private int number;
-
-  public Producer create() {
-    return switch (type) {
-      case CONSTANT -> ConstantProducer.Factory.create();
-    };
-  }
 }
