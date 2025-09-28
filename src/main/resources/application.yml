@@ -34,3 +34,14 @@ springdoc:
     - io.github.czeffik.queues.performance.interfaces.rest
   paths-to-match:
     - /**
+
+application:
+  producers:
+    type: CONSTANT
+    number: 50
+  consumer:
+    timeout: 10
+    unit: seconds
+    type: WAITING
+  queue:
+    type: ARRAY_BLOCKING_1k
