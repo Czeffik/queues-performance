@@ -1,6 +1,17 @@
 spring:
   application:
     name: queues-performance
+management:
+  server:
+    port: 9999
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, info
+      base-path: /actuator
+  endpoint:
+    prometheus:
+      enabled: true
 server:
   port: 8080
   tomcat:
