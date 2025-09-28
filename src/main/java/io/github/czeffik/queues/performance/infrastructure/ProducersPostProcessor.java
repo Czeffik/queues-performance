@@ -1,9 +1,8 @@
 package io.github.czeffik.queues.performance.infrastructure;
 
 import io.github.czeffik.queues.performance.domain.Producer;
-import io.github.czeffik.queues.performance.infrastructure.producer.ConstantProducer;
+import io.github.czeffik.queues.performance.infrastructure.producer.ProducerParkedFor500kNanos;
 import io.github.czeffik.queues.performance.infrastructure.producer.ProducerProperties;
-import java.util.ArrayList;
 import java.util.HashMap;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -28,12 +27,9 @@ public class ProducersPostProcessor implements BeanDefinitionRegistryPostProcess
   @Override
   public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)
       throws BeansException {
-    var producers = new ArrayList<Producer>();
     for (int i = 0; i < producerProperties.getNumber(); i++) {
-      var producer = producerProperties.create();
-      producers.add(producer);
       var name = "producer" + i;
-      var builder = BeanDefinitionBuilder.genericBeanDefinition(ConstantProducer.class);
+      var builder = BeanDefinitionBuilder.genericBeanDefinition(ProducerParkedFor500kNanos.class);
       registry.registerBeanDefinition(name, builder.getBeanDefinition());
     }
   }
