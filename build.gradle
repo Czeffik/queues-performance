@@ -48,6 +48,7 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
     implementation "io.micrometer:micrometer-registry-prometheus:${prometheusVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-aop:${springBootVersion}"
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}"
 
     implementation "com.google.guava:guava:${guavaVersion}"
