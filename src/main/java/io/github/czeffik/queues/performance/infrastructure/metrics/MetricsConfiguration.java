@@ -1,6 +1,7 @@
 package io.github.czeffik.queues.performance.infrastructure.metrics;
 
 import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +14,8 @@ public class MetricsConfiguration {
   }
 
   @Bean
-  public MessageMetrics messageMetrics(MeterRegistry meterRegistry) {
-    return new MessageMetrics(meterRegistry);
+  public MessageMetrics messageMetrics(
+      MeterRegistry meterRegistry, ApplicationContext applicationContext) {
+    return new MessageMetrics(meterRegistry, applicationContext);
   }
 }

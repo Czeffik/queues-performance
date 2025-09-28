@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 @EnableConfigurationProperties({
   ConsumerProperties.class,
@@ -27,11 +28,6 @@ public class DomainConfiguration {
   }
 
   @Bean
-  public List<Producer> producers(ProducerProperties producerProperties) {
-    return producerProperties.create();
-  }
-
-  @Bean
   public Consumer consumer(ConsumerProperties consumerProperties) {
     return consumerProperties.create();
   }
@@ -39,5 +35,10 @@ public class DomainConfiguration {
   @Bean
   public MessageQueue messageQueue(MessageQueueProperties messageQueueProperties) {
     return messageQueueProperties.create();
+  }
+
+  @Bean
+  ProducersPostProcessor postProcessor(Environment environment) {
+    return new ProducersPostProcessor(environment);
   }
 }

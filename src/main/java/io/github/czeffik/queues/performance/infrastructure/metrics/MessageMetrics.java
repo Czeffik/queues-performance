@@ -2,6 +2,7 @@ package io.github.czeffik.queues.performance.infrastructure.metrics;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,8 +10,9 @@ public class MessageMetrics {
 
   private final Counter messagesProducedTotal;
   private final Counter messagesConsumedTotal;
+  private final ApplicationContext applicationContext;
 
-  public MessageMetrics(MeterRegistry registry) {
+  public MessageMetrics(MeterRegistry registry, ApplicationContext applicationContext) {
     this.messagesProducedTotal =
         Counter.builder("messages.produced.total")
             .description("Total number of messages produced")
@@ -20,6 +22,7 @@ public class MessageMetrics {
         Counter.builder("messages.consumed.total")
             .description("Total number of messages consumed")
             .register(registry);
+    this.applicationContext = applicationContext;
   }
 
   public void incrementProduced() {
