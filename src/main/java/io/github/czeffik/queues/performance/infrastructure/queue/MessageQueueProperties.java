@@ -16,6 +16,8 @@ public class MessageQueueProperties {
       case ARRAY_BLOCKING_100k -> new ArrayBlockingMessageQueue(100_000);
       case LINKED_BLOCKING -> new LinkedBlockingMessageQueue();
       case CONCURRENT_NOT_BLOCKING -> new ConcurrentNotBlockingMessageQueue();
+      case CONCURRENT_NOT_BLOCKING_WITH_SEMAPHORE ->
+          new ConcurrentNotBlockingWithSemaphoreMessageQueue();
     };
   }
 }
