@@ -23,4 +23,9 @@ public class ConcurrentNotBlockingWithSemaphoreMessageQueue implements MessageQu
     available.release();
     return result;
   }
+
+  @Override
+  public int size() {
+    return queue.size();
+  }
 }

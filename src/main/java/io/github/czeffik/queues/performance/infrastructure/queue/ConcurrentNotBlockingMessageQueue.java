@@ -16,4 +16,9 @@ public class ConcurrentNotBlockingMessageQueue implements MessageQueue {
   public boolean offer(String s) {
     return queue.offer(s);
   }
+
+  @Override
+  public int size() {
+    return queue.size();
+  }
 }

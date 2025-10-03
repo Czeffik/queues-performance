@@ -7,6 +7,8 @@ public interface MessageQueue {
 
   boolean offer(String s);
 
+  int size();
+
   enum Type {
     ARRAY_BLOCKING_1k,
     ARRAY_BLOCKING_10k,
