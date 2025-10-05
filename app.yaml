@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  queues-performance:
+    container_name: queues-performance
+    build:
+      context: .
+      args:
+        JAR_FILE: ./build/libs/queues-performance.jar
+        JAVA_OPTS: "-XX:+UseNUMA -XX:+UseG1GC -Xms4G -Xmx4G"
+    image: queues-performance
+    deploy:
+      resources:
+        limits:
+          cpus: "2"       # Max
+          memory: 4g      # Max
+        reservations:
+          cpus: "2"      # Guaranteed
+          memory: 4g     # Guaranteed
+    mem_reservation: 4g
+    cpu_count: 2
+    ports:
+      - 8080:8080
+      - 9999:9999

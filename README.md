@@ -17,3 +17,13 @@ gradle clean build
 ```shell
 java -XX:+UseNUMA -XX:+UseG1GC -Xms4G -Xmx4G -jar ./build/libs/queues-performance.jar
 ```
+
+or use docker:
+```shell
+docker compose -f app.yaml up
+```
+
+or setup everything app, prometheus and grafana with:
+```shell
+docker compose up
+```
