@@ -5,16 +5,20 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 public class ConcurrentNotBlockingMessageQueue implements MessageQueue {
-  private final ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+  private final ConcurrentLinkedQueue<Long> queue = new ConcurrentLinkedQueue<>();
 
   @Override
-  public String poll(long timeout, TimeUnit unit) throws InterruptedException {
-    return queue.poll();
+  public long poll(long timeout, TimeUnit unit) throws InterruptedException {
+    var result = queue.poll();
+    if (result == null) {
+      return -1;
+    }
+    return result;
   }
 
   @Override
-  public boolean offer(String s) {
-    return queue.offer(s);
+  public boolean offer(long timeNanos) {
+    return queue.offer(timeNanos);
   }
 
   @Override

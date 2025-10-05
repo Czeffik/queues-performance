@@ -15,7 +15,7 @@ public class ProducerParkedFor500kNanos implements Producer {
     executor.submit(
         () -> {
           while (running) {
-            queue.offer("pif paf");
+            queue.offer(System.nanoTime());
             LockSupport.parkNanos(500_000);
           }
         });

@@ -5,20 +5,24 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class ArrayBlockingMessageQueue implements MessageQueue {
-  private final ArrayBlockingQueue<String> queue;
+  private final ArrayBlockingQueue<Long> queue;
 
   public ArrayBlockingMessageQueue(int size) {
     this.queue = new ArrayBlockingQueue<>(size);
   }
 
   @Override
-  public String poll(long timeout, TimeUnit unit) throws InterruptedException {
-    return queue.poll(timeout, unit);
+  public long poll(long timeout, TimeUnit unit) throws InterruptedException {
+    var result = queue.poll(timeout, unit);
+    if (result == null) {
+      return -1;
+    }
+    return result;
   }
 
   @Override
-  public boolean offer(String s) {
-    return queue.offer(s);
+  public boolean offer(long timeNanos) {
+    return queue.offer(timeNanos);
   }
 
   @Override

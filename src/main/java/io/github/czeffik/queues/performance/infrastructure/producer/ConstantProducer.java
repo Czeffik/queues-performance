@@ -14,7 +14,7 @@ public class ConstantProducer implements Producer {
     executor.submit(
         () -> {
           while (running) {
-            queue.offer("pif paf");
+            queue.offer(System.nanoTime());
           }
         });
   }

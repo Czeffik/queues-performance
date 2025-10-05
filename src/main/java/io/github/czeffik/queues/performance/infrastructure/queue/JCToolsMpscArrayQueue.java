@@ -5,16 +5,20 @@ import java.util.concurrent.TimeUnit;
 import org.jctools.queues.MpscArrayQueue;
 
 public class JCToolsMpscArrayQueue implements MessageQueue {
-  private final MpscArrayQueue<String> queue = new MpscArrayQueue<>(1 << 20);
+  private final MpscArrayQueue<Long> queue = new MpscArrayQueue<>(1 << 20);
 
   @Override
-  public String poll(long timeout, TimeUnit unit) throws InterruptedException {
-    return queue.relaxedPoll();
+  public long poll(long timeout, TimeUnit unit) throws InterruptedException {
+    var result = queue.relaxedPoll();
+    if (result == null) {
+      return -1;
+    }
+    return result;
   }
 
   @Override
-  public boolean offer(String s) {
-    return queue.relaxedOffer(s);
+  public boolean offer(long timeNanos) {
+    return queue.relaxedOffer(timeNanos);
   }
 
   @Override

@@ -22,8 +22,9 @@ public class MessageMetricsAspect {
     messageMetrics.incrementProduced();
   }
 
-  @AfterReturning("consumerMethod()")
-  public void afterConsumed() {
+  @AfterReturning(pointcut = "consumerMethod()", returning = "producedTime")
+  public void afterConsumed(long producedTime) {
     messageMetrics.incrementConsumed();
+    messageMetrics.recordLatency(producedTime);
   }
 }

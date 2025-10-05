@@ -3,9 +3,9 @@ package io.github.czeffik.queues.performance.domain;
 import java.util.concurrent.TimeUnit;
 
 public interface MessageQueue {
-  String poll(long timeout, TimeUnit unit) throws InterruptedException;
+  long poll(long timeout, TimeUnit unit) throws InterruptedException;
 
-  boolean offer(String s);
+  boolean offer(long timeNanos);
 
   int size();
 

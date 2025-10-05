@@ -14,7 +14,7 @@ public class OneThousandPerSecondProducer implements Producer {
   @Override
   public void produceTo(MessageQueue queue) {
     scheduler.scheduleAtFixedRate(
-        () -> queue.offer("pif paf"), 0, PERIOD_IN_NANOS, TimeUnit.NANOSECONDS);
+        () -> queue.offer(System.nanoTime()), 0, PERIOD_IN_NANOS, TimeUnit.NANOSECONDS);
   }
 
   @Override

@@ -6,20 +6,24 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 public class ConcurrentNotBlockingWithSemaphoreMessageQueue implements MessageQueue {
-  private final ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+  private final ConcurrentLinkedQueue<Long> queue = new ConcurrentLinkedQueue<>();
   private final Semaphore available = new Semaphore(0);
 
   @Override
-  public String poll(long timeout, TimeUnit unit) throws InterruptedException {
+  public long poll(long timeout, TimeUnit unit) throws InterruptedException {
     if (!available.tryAcquire(timeout, unit)) {
-      return null; // timeout
+      return -1; // timeout
     }
-    return queue.poll();
+    var result = queue.poll();
+    if (result == null) {
+      return -1;
+    }
+    return result;
   }
 
   @Override
-  public boolean offer(String s) {
-    var result = queue.offer(s);
+  public boolean offer(long timeNanos) {
+    var result = queue.offer(timeNanos);
     available.release();
     return result;
   }
