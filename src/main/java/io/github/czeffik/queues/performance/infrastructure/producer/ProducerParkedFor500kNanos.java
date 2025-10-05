@@ -22,6 +22,11 @@ public class ProducerParkedFor500kNanos implements Producer {
   }
 
   @Override
+  public Type type() {
+    return Type.PARKED_FOR_500_k_NANOS;
+  }
+
+  @Override
   public void close() throws Exception {
     running = false;
     executor.shutdownNow();

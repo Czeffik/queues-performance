@@ -29,6 +29,11 @@ public class WaitingConsumer implements Consumer {
   }
 
   @Override
+  public Type type() {
+    return Type.WAITING;
+  }
+
+  @Override
   public void close() throws Exception {
     running = false;
     executor.shutdown();

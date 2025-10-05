@@ -20,6 +20,11 @@ public class ConstantProducer implements Producer {
   }
 
   @Override
+  public Type type() {
+    return Type.CONSTANT;
+  }
+
+  @Override
   public void close() throws Exception {
     running = false;
     executor.shutdownNow();

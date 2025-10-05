@@ -18,6 +18,11 @@ public class OneThousandPerSecondProducer implements Producer {
   }
 
   @Override
+  public Type type() {
+    return Type.ONE_THOUSAND_PER_SECOND;
+  }
+
+  @Override
   public void close() throws Exception {
     scheduler.shutdownNow();
   }
