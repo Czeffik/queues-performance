@@ -18,6 +18,8 @@ public class MessageQueueProperties {
       case CONCURRENT_NOT_BLOCKING -> new ConcurrentNotBlockingMessageQueue();
       case CONCURRENT_NOT_BLOCKING_WITH_SEMAPHORE ->
           new ConcurrentNotBlockingWithSemaphoreMessageQueue();
+      case JC_TOOLS -> new JCToolsMpscArrayQueue();
+      case JC_TOOLS_WITH_SEMAPHORE -> new JCToolsMpscArrayQueueWithSemaphore();
     };
   }
 }

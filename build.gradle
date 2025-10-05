@@ -55,6 +55,8 @@ dependencies {
 
     implementation "io.vavr:vavr:${vavrVersion}"
 
+    implementation 'org.jctools:jctools-core:4.0.5'
+
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
