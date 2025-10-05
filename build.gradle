@@ -86,3 +86,15 @@ springBoot {
 
 bootRun {
 }
+
+tasks.register('copyUnversionedBootJar', Copy) {
+    dependsOn tasks.named('bootJar')
+    from(layout.buildDirectory.dir("libs"))
+    include "${project.name}-${project.version}.jar"
+    into(layout.buildDirectory.dir("libs"))
+    rename { "${project.name}.jar" }
+}
+
+tasks.named('build') {
+    dependsOn tasks.named('copyUnversionedBootJar')
+}
