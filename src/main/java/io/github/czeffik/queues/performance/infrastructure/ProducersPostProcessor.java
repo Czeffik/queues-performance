@@ -1,6 +1,8 @@
 package io.github.czeffik.queues.performance.infrastructure;
 
 import io.github.czeffik.queues.performance.domain.Producer;
+import io.github.czeffik.queues.performance.infrastructure.producer.ConstantProducer;
+import io.github.czeffik.queues.performance.infrastructure.producer.OneThousandPerSecondProducer;
 import io.github.czeffik.queues.performance.infrastructure.producer.ProducerParkedFor500kNanos;
 import io.github.czeffik.queues.performance.infrastructure.producer.ProducerProperties;
 import java.util.HashMap;
@@ -29,8 +31,16 @@ public class ProducersPostProcessor implements BeanDefinitionRegistryPostProcess
       throws BeansException {
     for (int i = 0; i < producerProperties.getNumber(); i++) {
       var name = "producer" + i;
-      var builder = BeanDefinitionBuilder.genericBeanDefinition(ProducerParkedFor500kNanos.class);
+      var builder = BeanDefinitionBuilder.genericBeanDefinition(getProducerClass());
       registry.registerBeanDefinition(name, builder.getBeanDefinition());
     }
+  }
+
+  private Class<?> getProducerClass() {
+    return switch (producerProperties.getType()) {
+      case CONSTANT -> ConstantProducer.class;
+      case ONE_THOUSAND_PER_SECOND -> OneThousandPerSecondProducer.class;
+      case PARKED_FOR_500_k_NANOS -> ProducerParkedFor500kNanos.class;
+    };
   }
 }

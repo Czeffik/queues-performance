@@ -37,11 +37,11 @@ springdoc:
 
 application:
   producers:
-    type: CONSTANT
-    number: 50
+    type: ONE_THOUSAND_PER_SECOND
+    number: 10
   consumer:
     timeout: 10
     unit: seconds
     type: WAITING
   queue:
-    type: ARRAY_BLOCKING_1k
+    type: LINKED_BLOCKING
