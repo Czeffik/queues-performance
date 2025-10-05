@@ -38,7 +38,7 @@ springdoc:
 application:
   producers:
     type: ONE_THOUSAND_PER_SECOND
-    number: 10
+    number: 100
   consumer:
     timeout: 10
     unit: seconds

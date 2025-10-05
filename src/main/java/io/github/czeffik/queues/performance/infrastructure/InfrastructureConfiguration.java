@@ -4,6 +4,6 @@ import io.github.czeffik.queues.performance.infrastructure.metrics.MetricsConfig
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-@Import({MetricsConfiguration.class})
+@Import({MetricsConfiguration.class, ApplicationProperties.class})
 @Configuration
 public class InfrastructureConfiguration {}
