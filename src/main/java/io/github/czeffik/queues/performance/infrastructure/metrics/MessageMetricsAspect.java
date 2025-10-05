@@ -11,10 +11,10 @@ public class MessageMetricsAspect {
 
   private final MessageMetrics messageMetrics;
 
-  @Pointcut("execution(* io.github.czeffik.queues.performance.domain.Producer.produceTo(..))")
+  @Pointcut("execution(* io.github.czeffik.queues.performance.domain.MessageQueue.offer(..))")
   public void producerMethod() {}
 
-  @Pointcut("execution(* io.github.czeffik.queues.performance.domain.Consumer.consumeFrom(..))")
+  @Pointcut("execution(* io.github.czeffik.queues.performance.domain.MessageQueue.poll(..))")
   public void consumerMethod() {}
 
   @AfterReturning("producerMethod()")
