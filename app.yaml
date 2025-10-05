@@ -22,3 +22,5 @@ services:
     ports:
       - 8080:8080
       - 9999:9999
+    environment:
+      - APPLICATION_QUEUE_TYPE=${APPLICATION_QUEUE_TYPE:-LINKED_BLOCKING}

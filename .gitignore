@@ -26,3 +26,7 @@
 tomcat
 *.log
 logs
+
+venv
+.venv
+**/prometheus_data/

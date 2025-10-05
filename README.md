@@ -27,3 +27,15 @@ or setup everything app, prometheus and grafana with:
 ```shell
 docker compose up
 ```
+
+## Run tests
+To be able to run tests you have to:
+- install python3
+- install [prometheus](https://prometheus.io/download/#prometheus)
+
+After that you should be able to run tests using command below:
+```shell
+python3 run_tests.py
+```
+
+It will create test results in `results` directory.
