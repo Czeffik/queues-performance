@@ -1,6 +1,37 @@
 # queues-performance
 
-## Start prometheus
+This project was born out of curiosity (and maybe a little obsession) to see how different Java queues behave under pressure.
+
+Right now, we’ve got a single test scenario running:
+ - multiple producers, single consumer
+
+Currently tested queues:
+- ArrayBlockingQueue
+- ConcurrentLinkedQueue
+- MpscArrayQueue
+- LinkedBlockingQueue
+
+During the test run, the app publishes both custom metrics and JVM metrics (thanks to Spring Boot Actuator doing its magic).
+
+Custom metrics include:
+
+- `messages.produced.total` - number of times `MessageQueue.offer` was called (our producers’ total hustle count).
+- `messages.consumed.total` - number of times `MessageQueue.poll` was called.
+**For blocking consumers:** this shows the total number of messages successfully received.
+**For non-blocking consumers:** it counts only the number of poll attempts, not necessarily successful ones - because optimism is important.
+- `message.queue.size` - current queue size (a.k.a. how stuffed the queue currently feels).
+- `queue.latency.microseconds` - the delay between enqueue and dequeue operations, measured in microseconds - because every microsecond counts when you’re racing threads!
+
+## A Sneak Peek: What You’ll See in Grafana
+
+![Latency](results/screenshots/latency_and_queue_size.png)
+![Consumed(number of poll calls on queue) and produced messages](results/screenshots/consumed_and_produced.png)
+![JVM Memory](results/screenshots/jvm_memory.png)
+![JVM Misc](results/screenshots/jvm_misc.png)
+![JVM Memory Pools](results/screenshots/jvm_memory.png)
+![GC and Class Loading ](results/screenshots/gc_class_loading.png)
+
+## Start prometheus and grafana
 ```shell
 docker compose -f metrics.yaml up -d
 ```
@@ -23,7 +54,7 @@ or use docker:
 docker compose -f app.yaml up
 ```
 
-or setup everything app, prometheus and grafana with:
+or setup everything: app, prometheus and grafana with:
 ```shell
 docker compose up
 ```
@@ -74,12 +105,3 @@ The example data currently bundled in this repo covers the following time range:
 - 2025-10-05 17:15:00
 
 **Timezone:** CEST (UTC +02:00)
-
-### A Sneak Peek: What You’ll See in Grafana
-
-![Latency](results/screenshots/latency_and_queue_size.png)
-![Consumed(number of poll calls on queue) and produced messages](results/screenshots/consumed_and_produced.png)
-![JVM Memory](results/screenshots/jvm_memory.png)
-![JVM Misc](results/screenshots/jvm_misc.png)
-![JVM Memory Pools](results/screenshots/jvm_memory.png)
-![GC and Class Loading ](results/screenshots/gc_class_loading.png)
