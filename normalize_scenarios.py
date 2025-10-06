@@ -27,6 +27,25 @@ def load_scenario(file_path):
         raise ValueError(f"No valid data found in {file_path}")
     return data
 
+def transform_metric_line(line: str) -> str:
+    line = line.strip()
+    if not line.startswith("{") or "}" not in line:
+        raise ValueError("Line is not in expected format")
+
+    labels_part, rest = line[1:].split("}", 1)
+    labels = labels_part.split(", ")
+
+    name_label = [l for l in labels if l.startswith("__name__=")][0]
+    metric_name = name_label.split("=", 1)[1].strip('"')
+    other_labels = [l for l in labels if not l.startswith("__name__=")]
+
+    if other_labels:
+        new_line = f'{metric_name}{{{",".join(other_labels)}}}{rest}'
+    else:
+        new_line = f'{metric_name}{rest}'
+
+    return new_line
+
 def normalize_scenarios(base_file, other_files, output_dir):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -76,15 +95,17 @@ def normalize_scenarios(base_file, other_files, output_dir):
             if current_timestamp != previous_timestamp:
                 base_timestamp_index +=1
 
-            normalized.append((current[0], current[1], base_timestamp))
+            current_metric_object = current[0]
+            normalized.append((transform_metric_line(current_metric_object).strip(), current[1], current_timestamp/1000))
             previous_timestamp = current_timestamp
             if i % 50000 == 0:
                 print(f"   Processed {i}/{len(values)} points")
 
-        output_path = output_dir /  f"{file_path.parent.name}_normalized.json"
+        output_path = output_dir /  f"{file_path.parent.name}_normalized.prom"
         with open(output_path, "w") as out:
             for m, v, t in normalized:
                 out.write(f"{m} {v} {t}\n")
+            out.write("# EOF")
 
         print(f"✅ Saved normalized file to: {output_path}")
 
